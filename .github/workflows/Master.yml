@@ -1,0 +1,21 @@
+name: Update cms/master
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  update-cms-master:
+    name: Merge develop into master a PR is merged
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: merge
+        uses: mtanzi/action-automerge@v1
+        id: merge
+        with:
+          github_token: ${{ secrets.GIT_TOKEN }}
+          source: 'develop'
+          target: 'master'

@@ -1,0 +1,29 @@
+name: GitHub AutoMerge
+run-name: ${{ github.actor }} is testing automerge
+on:
+  push:
+   branches:
+     - '*'         # matches every branch that doesn't contain a '/'
+     - '*/*'       # matches every branch containing a single '/'
+     - '**'        # matches every branch
+     - '!release/*'       # matches every branch containing a single '/'
+     - '!develop'
+     - '!master'
+jobs:
+  merge-on-dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Git config
+        run: |
+            git config --global user.email "email@email.com"
+            git config --global user.name "renzzog777"
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Merge feature back to dev
+        run: |
+            git fetch --unshallow
+            git switch develop
+            git pull
+            git merge  --strategy-option theirs --no-ff  ${{ github.ref }}  -m "Auto-merge ${{ github.ref }} back to develop"
+            git push origin develop
+            
