@@ -178,7 +178,13 @@ resource "aws_eks_addon" "eks_vpc_cni" {
 resource "aws_eks_addon" "eks_vpc_core_dns" {
   cluster_name = aws_eks_cluster.Kubernetes_Cluster.name
   addon_name   = "coredns"
+  depends_on = [
+    aws_eks_node_group.Nodos
+  ]
+
 }
+
+
 
 resource "aws_eks_addon" "eks_vpc_kube_proxy" {
   cluster_name = aws_eks_cluster.Kubernetes_Cluster.name
