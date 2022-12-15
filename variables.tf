@@ -6,7 +6,7 @@ variable "region" {
 
 variable "account_id" {
   description = "AWS Account"
-  type        = niumber
+  type        = number
   default     = 577247986912
 }
 
