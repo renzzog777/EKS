@@ -26,4 +26,5 @@ jobs:
             git pull
             git merge  --strategy-option theirs --no-ff  ${{ github.ref }}  -m "Auto-merge ${{ github.ref }} back to develop"
             git push origin develop
+            git push origin master
             
