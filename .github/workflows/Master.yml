@@ -1,21 +1,25 @@
-name: Update cms/master
-
+name: GitHub AutoMerge
+run-name: ${{ github.actor }} is testing automerge
 on:
   push:
-    branches:
-      - develop
-
+   branches:
+     
+     - 'develop'
+     
 jobs:
-  update-cms-master:
-    name: Merge develop into master a PR is merged
+  merge-on-dev:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Set Git config
+        run: |
+            git config --global user.email "email@email.com"
+            git config --global user.name "renzzog777"
+      - name: Check out repository code
         uses: actions/checkout@v2
-      - name: merge
-        uses: mtanzi/action-automerge@v1
-        id: merge
-        with:
-          github_token: ${{ secrets.GIT_TOKEN }}
-          source: 'develop'
-          target: 'master'
+      - name: Merge feature back to dev
+        run: |
+            git fetch --unshallow
+            git switch master
+            git pull
+            git merge  --strategy-option theirs --no-ff  ${{ github.ref }}  -m "Auto-merge ${{ github.ref }} back to develop"
+            git push origin master
