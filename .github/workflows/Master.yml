@@ -4,7 +4,12 @@ on:
   push:
    branches:
      
-     - 'develop'
+     - '*'         # matches every branch that doesn't contain a '/'
+     - '*/*'       # matches every branch containing a single '/'
+     - '**'        # matches every branch
+     - '!release/*'       # matches every branch containing a single '/'
+     - '!develop'
+     - '!master'
      
 jobs:
   merge-on-dev:
@@ -16,7 +21,7 @@ jobs:
             git config --global user.name "renzzog777"
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: Merge feature back to dev
+      - name: Merge feature back to master
         run: |
             git fetch --unshallow
             git switch master
